@@ -453,7 +453,7 @@ def _get_column_indices(X, key):
                 "Specifying the columns using strings is only supported for dataframes."
             )
         if isinstance(key, str):
-            columns = [key]
+            selected_columns = [key]
         elif isinstance(key, slice):
             start, stop = key.start, key.stop
             if start is not None:
@@ -465,20 +465,20 @@ def _get_column_indices(X, key):
                 stop = n_columns + 1
             return list(islice(range(n_columns), start, stop))
         else:
-            columns = list(key)
+            selected_columns = list(key)
 
         try:
             column_indices = []
-            for col in columns:
+            for col in selected_columns:
                 col_idx = all_columns.get_loc(col)
                 if not isinstance(col_idx, numbers.Integral):
                     raise ValueError(
-                        f"Selected columns, {columns}, are not unique in dataframe"
+                        f"Selected columns, {selected_columns}, are not unique in dataframe"
                     )
                 column_indices.append(col_idx)
 
         except KeyError as e:
-            missing = {*columns} - {*all_columns}
+            missing = {*selected_columns} - {*all_columns}
             raise ValueError(
                 f"A given column is not a column of the dataframe: {missing}"
             ) from e
@@ -497,17 +497,17 @@ def _get_column_indices_interchange(X_interchange, key, key_dtype):
     elif key_dtype in ("bool", "int"):
         return _get_column_indices_for_bool_or_int(key, n_columns)
     else:
-        column_names = list(X_interchange.column_names())
+        all_columns = list(X_interchange.column_names())
 
         if isinstance(key, slice):
             if key.step not in [1, None]:
                 raise NotImplementedError("key.step must be 1 or None")
             start, stop = key.start, key.stop
             if start is not None:
-                start = column_names.index(start)
+                start = all_columns.index(start)
 
             if stop is not None:
-                stop = column_names.index(stop) + 1
+                stop = all_columns.index(stop) + 1
             else:
                 stop = n_columns + 1
             return list(islice(range(n_columns), start, stop))
@@ -515,9 +515,9 @@ def _get_column_indices_interchange(X_interchange, key, key_dtype):
         selected_columns = [key] if np.isscalar(key) else key
 
         try:
-            return [column_names.index(col) for col in selected_columns]
+            return [all_columns.index(col) for col in selected_columns]
         except ValueError as e:
-            missing = {*selected_columns} - {*column_names}
+            missing = {*selected_columns} - {*all_columns}
             raise ValueError(
                 f"A given column is not a column of the dataframe: {missing}"
             ) from e
