@@ -547,7 +547,7 @@ class ColumnTransformer(TransformerMixin, _BaseComposition):
                 transformer_to_input_indices[name] = _get_column_indices(X, columns)
             except ValueError as e:
                 if "A given column is not a column" in str(e):
-                    e.add_note(f"Error occured on Column Transformer step {name}")
+                    e.add_note(f"Error occurred on Column Transformer step {name}")
                 raise
 
         self._columns = all_columns
