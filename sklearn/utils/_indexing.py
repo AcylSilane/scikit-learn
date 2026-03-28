@@ -473,7 +473,8 @@ def _get_column_indices(X, key):
                 col_idx = all_columns.get_loc(col)
                 if not isinstance(col_idx, numbers.Integral):
                     raise ValueError(
-                        f"Selected columns, {selected_columns}, are not unique in dataframe"
+                        f"Selected columns, {selected_columns}, "
+                        "are not unique in dataframe"
                     )
                 column_indices.append(col_idx)
 

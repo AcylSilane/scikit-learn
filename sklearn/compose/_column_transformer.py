@@ -550,7 +550,6 @@ class ColumnTransformer(TransformerMixin, _BaseComposition):
                     e.add_note(f"Error occured on Column Transformer step {name}")
                 raise
 
-
         self._columns = all_columns
         self._transformer_to_input_indices = transformer_to_input_indices
 
