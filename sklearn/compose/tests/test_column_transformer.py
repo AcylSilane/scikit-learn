@@ -717,6 +717,16 @@ def test_column_transformer_invalid_columns(remainder):
     with pytest.raises(ValueError, match=err_msg):
         ct.transform(X_array_fewer)
 
+@pytest.mark.parametrize("constructor_name", ["dataframe", "polars"])
+def test_column_transformer_missing_dataframe_columns(constructor_name):
+    X_array = np.array([[0, 1, 2], [2, 4, 6]]).T
+    X_df = _convert_container(
+        X_array, constructor_name, columns_name=["a", "b"]
+    )
+    ct = ColumnTransformer([("trans", Trans(), ["c"])])
+    msg = re.escape("A given column is not a column of the dataframe: {'c'}")
+    with pytest.raises(ValueError, match=msg):
+        ct.fit(X_df)
 
 def test_column_transformer_invalid_transformer():
     class NoTrans(BaseEstimator):
