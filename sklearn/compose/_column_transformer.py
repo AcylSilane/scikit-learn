@@ -522,12 +522,7 @@ class ColumnTransformer(TransformerMixin, _BaseComposition):
             if callable(columns):
                 columns = columns(X)
             all_columns.append(columns)
-            try:
-                transformer_to_input_indices[name] = _get_column_indices(X, columns)
-            except ValueError as e:
-                if "A given column is not a column" in str(e):
-                    e.add_note(f"Error occurred on Column Transformer step {name}")
-                raise
+            transformer_to_input_indices[name] = _get_column_indices(X, columns)
 
         self._columns = all_columns
         self._transformer_to_input_indices = transformer_to_input_indices
