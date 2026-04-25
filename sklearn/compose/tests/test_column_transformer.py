@@ -723,7 +723,7 @@ def test_column_transformer_missing_dataframe_columns(constructor_name):
     X_array = np.array([[0, 1, 2], [2, 4, 6]]).T
     X_df = _convert_container(X_array, constructor_name, columns_name=["a", "b"])
     ct = ColumnTransformer([("trans", Trans(), ["c"])])
-    msg = re.escape("A given column is not a column of the dataframe: {'c'}")
+    msg = re.escape("Some column names are not columns of the dataframe: {'c'}")
     with pytest.raises(ValueError, match=msg):
         ct.fit(X_df)
 

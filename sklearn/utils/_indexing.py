@@ -481,7 +481,7 @@ def _get_column_indices(X, key):
         except KeyError as e:
             missing = {*selected_columns} - {*all_columns}
             raise ValueError(
-                f"A given column is not a column of the dataframe: {missing}"
+                f"Some column names are not columns of the dataframe: {missing}"
             ) from e
 
         return column_indices
@@ -520,7 +520,7 @@ def _get_column_indices_interchange(X_interchange, key, key_dtype):
         except ValueError as e:
             missing = {*selected_columns} - {*all_columns}
             raise ValueError(
-                f"A given column is not a column of the dataframe: {missing}"
+                f"Some column names are not columns of the dataframe: {missing}"
             ) from e
 
 
