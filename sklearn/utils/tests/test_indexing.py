@@ -477,7 +477,10 @@ def test_safe_assign(array_type):
     "key, err_msg",
     [
         (10, r"all features must be in \[0, 2\]"),
-        ("whatever", r"Some column names are not columns of the dataframe: \{'whatever'\}"),
+        (
+            "whatever",
+            r"Some column names are not columns of the dataframe: \{'whatever'\}",
+        ),
         (object(), "No valid specification of the columns"),
     ],
 )
